@@ -10,15 +10,27 @@
     $pdo->exec("CREATE DATABASE IF NOT EXISTS WeatherRecordings");
     $pdo->exec("USE WeatherRecordings");
 
-    $pdo->exec("CREATE TABLE IF NOT EXISTS `PollutionLogs` (
-        `id` int NOT NULL AUTO_INCREMENT,
-        `citta` varchar(50) NOT NULL,
-        `aqi` int(11) NOT NULL, 
-        `pm10` float NOT NULL,
-        `pm25` float NOT NULL,
-        `rilevationDate` datetime NOT NULL,
-        PRIMARY KEY (`id`)
-    )")
+    $pdo->exec("CREATE TABLE IF NOT EXISTS City (
+        Name VARCHAR(100) PRIMARY KEY,
+        Province VARCHAR(100),
+        Latitude DECIMAL(10, 8),
+        Longitude DECIMAL(11, 8)
+    )");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS Registration (
+        ID INT AUTO_INCREMENT PRIMARY KEY,
+        aqi INT,
+        pm10 DECIMAL(6, 2),
+        pm2_5 DECIMAL(6, 2),
+        `no` DECIMAL(6, 2),
+        no2 DECIMAL(6, 2),
+        co DECIMAL(6, 2),
+        nh3 DECIMAL(6, 2),
+        o3 DECIMAL(6, 2),
+        City_name VARCHAR(100),
+        FOREIGN KEY (City_name) REFERENCES City(Name)
+        ON DELETE CASCADE ON UPDATE CASCADE
+    )");
     
 
 
