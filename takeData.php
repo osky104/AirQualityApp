@@ -29,7 +29,7 @@ if ($check == 0) {
 $apiKey = "870dfb630a2c71f5bda65766d9f48bca"; 
 
 $cities = $pdo -> query("SELECT Name, Latitude, Longitude FROM City")->fetchALL(PDO::FETCH_ASSOC);
-$sqlInsert = "INSERT INTO Registration (aqi, pm10, pm2_5, `no`, no2, co, nh3, o3, City_name) VALUES (:aqi, :pm10, :pm2_5, :no, :no2, :co, :nh3, :o3, :city)";
+$sqlInsert = "INSERT INTO Registration (aqi, pm10, pm2_5, `no`, no2, co, nh3, o3, date_time, City_name) VALUES (:aqi, :pm10, :pm2_5, :no, :no2, :co, :nh3, :o3, :dt, :city)";
 $stmt = $pdo->prepare($sqlInsert);
 
 foreach ($cities as $city) {
@@ -55,7 +55,8 @@ foreach ($cities as $city) {
     $currentDate = $data['list'][0]['dt'];
 
     //time is in Unix Timestamp and we need to convert it 
-    $currentDate = date('d/m/Y H:i', $currentDate); 
+    $cd = date('Y-m-d H:i', $currentDate);
+    echo $cd; 
 
     $stmt -> bindParam(":aqi", $aqi, PDO::PARAM_INT);
     $stmt -> bindParam(":pm10", $pm10, PDO::PARAM_STR);
@@ -65,10 +66,11 @@ foreach ($cities as $city) {
     $stmt -> bindParam(":co", $co, PDO::PARAM_STR);
     $stmt -> bindParam(":nh3", $nh3, PDO::PARAM_STR);
     $stmt -> bindParam(":o3", $o3, PDO::PARAM_STR);
+    $stmt -> bindParam(":dt", $cd, PDO::PARAM_STR);
     $stmt -> bindParam(":city", $name, PDO::PARAM_STR);
 
     $stmt -> execute();
-    usleep(200000);
+    // usleep(200000);
 
 
 }

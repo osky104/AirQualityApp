@@ -17,8 +17,9 @@
         Longitude DECIMAL(11, 8)
     )");
 
-    $pdo->exec("CREATE TABLE IF NOT EXISTS Registration (
-        ID INT AUTO_INCREMENT PRIMARY KEY,
+    $pdo->exec("CREATE TABLE IF NOT EXISTS RegistrationAir (
+        date_time DATETIME,
+        City_name VARCHAR(100),
         aqi INT,
         pm10 DECIMAL(6, 2),
         pm2_5 DECIMAL(6, 2),
@@ -27,10 +28,21 @@
         co DECIMAL(6, 2),
         nh3 DECIMAL(6, 2),
         o3 DECIMAL(6, 2),
-        City_name VARCHAR(100),
-        FOREIGN KEY (City_name) REFERENCES City(Name)
-        ON DELETE CASCADE ON UPDATE CASCADE
+        PRIMARY KEY (date_time, City_name),
+        FOREIGN KEY (City_name) REFERENCES City(Name) ON DELETE CASCADE ON UPDATE CASCADE
     )");
+
+/*
+    $pdo->exec("CREATE TABLE IF NOT EXISTS RegistrationWeather (
+        date_time DATETIME,
+        City_name VARCHAR(100),
+        
+
+        PRIMARY KEY (date_time, City_name),
+        FOREIGN KEY (City_name) REFERENCES City(Name) ON DELETE CASCADE ON UPDATE CASCADE
+    )");
+*/
+
     
 
 
