@@ -25,55 +25,65 @@ if ($check == 0) {
     fclose($file);
 }
 
-//TAKE DATA FROM OPEN WEATHER 
-$apiKey = "870dfb630a2c71f5bda65766d9f48bca"; 
-
 $cities = $pdo -> query("SELECT Name, Latitude, Longitude FROM City")->fetchALL(PDO::FETCH_ASSOC);
-$sqlInsert = "INSERT INTO Registration (aqi, pm10, pm2_5, `no`, no2, co, nh3, o3, date_time, City_name) VALUES (:aqi, :pm10, :pm2_5, :no, :no2, :co, :nh3, :o3, :dt, :city)";
+$sqlInsert = "INSERT INTO RegistrationAir (aqi, pm10, pm2_5, `no`, no2, co, nh3, o3, date_time, City_name) VALUES (:aqi, :pm10, :pm2_5, :no, :no2, :co, :nh3, :o3, :dt, :city)";
 $stmt = $pdo->prepare($sqlInsert);
 
-foreach ($cities as $city) {
+//TAKE DATA FROM OPEN-METEO
+//METEO DATA
+foreach($cities as $city) {
+
     $lat = $city['Latitude'];
     $lon = $city['Longitude'];
     $name = $city['Name'];
 
-    //call the API
-    $url = "http://api.openweathermap.org/data/2.5/air_pollution?lat=$lat&lon=$lon&appid=$apiKey";
-    $response = file_get_contents($url);
+    //AIR QUALITY DATA
+    $urlAir = "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=$lat&longitude=$lon&hourly=pm10,pm2_5,carbon_monoxide,carbon_dioxide,nitrogen_dioxide,sulphur_dioxide,ozone,european_aqi,nitrogen_monoxide,ammonia&past_days=31&forecast_days=1";
+   
+    $response = file_get_contents($urlAir);
     $data = json_decode($response, true);
+    
+    $aqi = $data['hourly']['european_aqi'];
+    $time = $data['hourly']['time'];
+    $pm10 = $data['hourly']['pm10'];
+    $pm2_5 = $data['hourly']['pm2_5'];
+    $co = $data['hourly']['carbon_dioxide'];
+    $no = $data['hourly']['nitrogen_monoxide'];
+    $no2 = $data['hourly']['nitrogen_dioxide'];
+    $o3 = $data['hourly']['ozone'];
+    $nh3 = $data['hourly']['ammonia'];
 
-    //take data
-    $aqi = $data['list'][0]['main']['aqi'];
-    $co = $data['list'][0]['components']['co'];
-    $no = $data['list'][0]['components']['no'];
-    $no2 = $data['list'][0]['components']['no2'];
-    $o3 = $data['list'][0]['components']['o3'];
-    $so2 = $data['list'][0]['components']['so2'];
-    $pm10 = $data['list'][0]['components']['pm10'];
-    $pm2_5 = $data['list'][0]['components']['pm2_5'];
-    $nh3 = $data['list'][0]['components']['nh3'];
-    $currentDate = $data['list'][0]['dt'];
+    foreach ($time as $i => $time_val) {
+        $aqi_val    = $aqi[$i];
+        $pm10_val   = $pm10[$i];
+        $pm2_5_val  = $pm2_5[$i];
+        $co_val     = $co[$i];
+        $no_val     = $no[$i];
+        $no2_val    = $no2[$i];
+        $o3_val     = $o3[$i];
+        $nh3_val    = $nh3[$i];
 
-    //time is in Unix Timestamp and we need to convert it 
-    $cd = date('Y-m-d H:i', $currentDate);
-    echo $cd; 
+        $stmt->bindValue(":aqi", $aqi_val, PDO::PARAM_INT);
+        $stmt->bindValue(":pm10", $pm10_val, PDO::PARAM_STR);
+        $stmt->bindValue(":pm2_5", $pm2_5_val, PDO::PARAM_STR);
+        $stmt->bindValue(":no", $no_val, PDO::PARAM_STR);
+        $stmt->bindValue(":no2", $no2_val, PDO::PARAM_STR);
+        $stmt->bindValue(":co", $co_val, PDO::PARAM_STR);
+        $stmt->bindValue(":nh3", $nh3_val, PDO::PARAM_STR);
+        $stmt->bindValue(":o3", $o3_val, PDO::PARAM_STR);
+        $stmt->bindValue(":dt", $time_val, PDO::PARAM_STR);
+        $stmt->bindValue(":city", $name, PDO::PARAM_STR);
 
-    $stmt -> bindParam(":aqi", $aqi, PDO::PARAM_INT);
-    $stmt -> bindParam(":pm10", $pm10, PDO::PARAM_STR);
-    $stmt -> bindParam(":pm2_5", $pm2_5, PDO::PARAM_STR);
-    $stmt -> bindParam(":no", $no, PDO::PARAM_STR);
-    $stmt -> bindParam(":no2", $no2, PDO::PARAM_STR);
-    $stmt -> bindParam(":co", $co, PDO::PARAM_STR);
-    $stmt -> bindParam(":nh3", $nh3, PDO::PARAM_STR);
-    $stmt -> bindParam(":o3", $o3, PDO::PARAM_STR);
-    $stmt -> bindParam(":dt", $cd, PDO::PARAM_STR);
-    $stmt -> bindParam(":city", $name, PDO::PARAM_STR);
+        $stmt -> execute();
+    }
 
-    $stmt -> execute();
-    // usleep(200000);
 
 
 }
+
+
+
+
 
 
 
