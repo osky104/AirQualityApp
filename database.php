@@ -32,16 +32,21 @@
         FOREIGN KEY (City_name) REFERENCES City(Name) ON DELETE CASCADE ON UPDATE CASCADE
     )");
 
-/*
+
     $pdo->exec("CREATE TABLE IF NOT EXISTS RegistrationWeather (
         date_time DATETIME,
         City_name VARCHAR(100),
-        
-
+        temperature DECIMAL(4, 2),          
+        feels_like DECIMAL(4, 2),           
+        humidity INT,                     
+        precipitation DECIMAL(5, 2),      
+        precip_probability INT,             
+        wind_speed DECIMAL(5, 2),          
+        weather_code INT,                   
         PRIMARY KEY (date_time, City_name),
         FOREIGN KEY (City_name) REFERENCES City(Name) ON DELETE CASCADE ON UPDATE CASCADE
     )");
-*/
+
 
     
 
