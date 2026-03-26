@@ -1,0 +1,49 @@
+/* === aria.css === */
+
+/* Griglia superiore (Card AQI grande a sinistra, due piccole a destra) */
+.aria-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+.side-cards { display: flex; flex-direction: column; gap: 1.5rem; }
+
+/* Ricopio gli stili della Air Card (così non dobbiamo caricare index.css) */
+.air-card { display: flex; flex-direction: column; height: 100%; }
+.air-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+.air-title { font-size: 0.875rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.badge { font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 99px; }
+.badge-good { background-color: #DCFCE7; color: #15803D; }
+.badge-fair { background-color: #FEF9C3; color: #A16207; }
+.aqi-display { margin-bottom: 1.5rem; }
+.aqi-value { font-size: 3rem; font-weight: 700; }
+.aqi-label { color: #94A3B8; font-weight: 500; }
+.pollutants-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: auto; }
+.pollutant-box { background-color: #F8FAFC; border: 1px solid var(--border-color); border-radius: 12px; padding: 0.75rem; }
+.pollutant-name { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; margin-bottom: 4px; }
+.pollutant-value { font-weight: 700; font-size: 1.125rem; }
+.pollutant-unit { font-size: 0.625rem; color: #94A3B8; font-weight: 400; }
+
+/* Card Tendenza e Raccomandazioni */
+.small-card-title { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; margin-bottom: 1rem; }
+.trend-flex { display: flex; align-items: center; gap: 0.75rem; }
+.trend-text h4 { font-size: 1rem; font-weight: 600; color: var(--text-main); }
+.trend-text p { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+.trend-icon.good { color: #16A34A; }
+
+.rec-box { display: flex; align-items: center; gap: 0.75rem; background-color: #ECFDF5; border: 1px solid #A7F3D0; padding: 1rem; border-radius: 8px; color: #065F46; font-size: 0.875rem; font-weight: 500; }
+.rec-icon { color: #10B981; }
+
+/* Classifica */
+.ranking-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 1.5rem; }
+.ranking-item { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--border-color); }
+.ranking-item:last-child { border-bottom: none; padding-bottom: 0; }
+.ranking-left { display: flex; align-items: center; gap: 1rem; }
+.rank-number { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; font-weight: 700; color: white; background-color: var(--text-muted); }
+.rank-1 { background-color: #2563EB; } /* Blu per il primo */
+.rank-2 { background-color: #94A3B8; } /* Grigio per il secondo */
+.rank-3 { background-color: #EA580C; } /* Arancione per il terzo */
+.rank-city { font-weight: 600; font-size: 0.875rem; color: var(--text-main); }
+.rank-badge { padding: 0.25rem 0.75rem; border-radius: 99px; font-size: 0.75rem; font-weight: 600; border: 1px solid; }
+.rank-badge.good { background-color: #F0FDF4; color: #15803D; border-color: #BBF7D0; }
+.rank-badge.fair { background-color: #FEFCE8; color: #A16207; border-color: #FEF08A; }
+
+@media (max-width: 768px) {
+    .aria-grid { grid-template-columns: 1fr; }
+}

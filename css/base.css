@@ -1,0 +1,52 @@
+/* === base.css === */
+
+/* Variabili e Reset */
+:root {
+    --bg-body: #F0F4F8;
+    --bg-card: #FFFFFF;
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+    --primary: #2563EB;
+    --border-color: #E2E8F0;
+    --radius: 16px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); padding-bottom: 3rem; }
+
+/* Header e Navigazione */
+.site-header { background-color: var(--bg-card); border-bottom: 1px solid var(--border-color); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10; }
+.header-logo { display: flex; align-items: center; gap: 0.75rem; }
+.icon-box { background-color: var(--primary); color: white; padding: 0.5rem; border-radius: 12px; display: flex; }
+.logo-text h1 { font-size: 1.25rem; font-weight: 700; }
+.logo-text p { font-size: 0.75rem; color: var(--text-muted); }
+
+.nav-menu { display: flex; gap: 0.5rem; background-color: #F1F5F9; padding: 0.25rem; border-radius: 8px; }
+.nav-link { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; text-decoration: none; color: var(--text-muted); font-size: 0.875rem; font-weight: 500; border-radius: 6px; transition: all 0.2s; }
+.nav-link.active { background-color: white; color: var(--text-main); box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.nav-link:hover:not(.active) { background-color: #E2E8F0; color: var(--text-main); }
+
+/* Layout Globale e Card Base */
+.container { max-width: 1152px; margin: 2rem auto 0; padding: 0 1rem; }
+.section-title-wrapper { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+.section-title h2 { font-size: 1.875rem; font-weight: 700; }
+.section-title p { font-size: 0.875rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+.card { background-color: var(--bg-card); border-radius: var(--radius); padding: 1.5rem; box-shadow: var(--shadow); }
+
+/* Selettore Città (usato in entrambe le pagine) */
+.city-selector { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.select-wrapper { flex: 1; max-width: 300px; }
+.select-wrapper label { display: block; font-size: 0.75rem; color: var(--text-muted); font-weight: 500; margin-bottom: 0.25rem; }
+.select-wrapper select { width: 100%; padding: 0.625rem; border: 1px solid var(--border-color); border-radius: 8px; background-color: #F8FAFC; font-size: 0.875rem; outline: none; }
+
+/* Bottoni e utilità generiche */
+.btn-outline { display: flex; align-items: center; gap: 0.5rem; background: white; border: 1px solid #D1D5DB; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.875rem; font-weight: 500; transition: background 0.2s; }
+.btn-outline:hover { background: #F9FAFB; }
+.mb-6 { margin-bottom: 1.5rem; }
+
+@media (max-width: 768px) {
+    .nav-menu { display: none; }
+    .section-title-wrapper { flex-direction: column; align-items: flex-start; gap: 1rem; }
+}
